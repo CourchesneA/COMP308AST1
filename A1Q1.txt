@@ -1,0 +1,42 @@
+;First open DOSBOX, and run DEBUG
+; I will use '>' to note a DEBUG command, else it is an x86 instruction
+
+;Part 1, print the character A (Text mode)
+
+;>a          ; Debug command to go in Assemble mode
+mov ah, 6   ; I/O functino for interrupt 21
+mov dl, 41  ; ASCII code for 'A'
+int 21      ; Call the interrupt
+;<enter>     ; Go back to debug
+;>p 3        ; run the next 3 instruction
+
+
+;Part 2, switch to graphic mode
+
+;>a          ; Assemble mode
+mov ah, 0   ; Clear top part of register AX
+mov al, 13  ; Set AX to 13 for graphic mode
+int 10      ; Call the interrupt
+;<enter>
+;>p 3
+
+
+;Part 3, print character A (Graphic mode)
+;These are the same instruction as for text mode
+
+;>a
+mov ah, 6
+mov dl, 41
+int 21
+;<enter>
+;>p 3
+
+
+;Part 4, return to text mode
+
+;>a
+mov ah, 0   ; Clear top part of register AX
+mov al, 3   ; Set AX to 3 for text mode
+int 10      ; Call the interrupt
+;<enter>
+;>p 3
